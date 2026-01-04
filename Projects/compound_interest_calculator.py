@@ -14,16 +14,17 @@ annual_interest = float(input("Enter the annual interest: "))
 investment_period = int(input("Enter the investment period (in years): "))
 compounding_frequency = int(input("Enter the compounding frequency (annual (enter 1), monthly (enter 12), daily (enter 365)): "))
 
-for i in range(1, investment_period + 1):
-    C = (1 + annual_interest / compounding_frequency) ** (compounding_frequency * i)
-    future_value = initial_capital * C
+with open("investment_report.csv", "w", encoding="utf-8") as file:
+    file.write("Year, Initial Capital, Interest Gained, Future value\n")
 
-    if i == 1:
-        table_file = open("table.txt", "w")
-        table_file.write(f"Year {i}: {future_value} \n")
-    else: 
-        table_file = open("table.txt", "a")
-        table_file.write(f"Year {i}: {future_value} \n")
+    for i in range(1, investment_period + 1):
+        future_value = initial_capital * (1 + annual_interest / compounding_frequency) ** (compounding_frequency * i)
+
+        interest_gained = future_value - initial_capital
+
+        file.write(f"{i},{initial_capital:.2f}, {interest_gained:.2f}, {future_value:.2f}")
+
+        compund_capital = initial_capital
 
 
 
